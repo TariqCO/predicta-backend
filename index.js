@@ -37,10 +37,11 @@ app.use("/api/fetch", fetchCoinRoute);
 
 // ──────────── PORT Connection ────────────
 const PORT = process.env.PORT || 4000;
+
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`🌐 Server running on http://localhost:${PORT}`)
 );
 
 // ──────────── Data Base Connection ────────────
 dbConnection();
-getTrendingFromCoinGecko();
+getTrendingFromCoinGecko().catch((err) => console.error("CoinGecko fetch failed:", err));
