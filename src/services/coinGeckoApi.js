@@ -2,7 +2,6 @@ import axios from "axios";
 import slugify from "slugify";
 import { CryptoModel } from "../models/cryptoModel.js";
 
-
 // ✅ Fetch trending coins from CoinGecko and sync with Binance symbols
 export async function getTrendingFromCoinGecko() {
   try {
@@ -34,18 +33,18 @@ export async function getTrendingFromCoinGecko() {
 
     // ✅ Step 5: Filter coins available on Binance
     const filteredCoinsArray = allCoins.filter((item) =>
-      binanceCoinsSet.has(item.symbol)
+      binanceCoinsSet.has(item.symbol),
     );
 
     // 🧠 Step 6: Check existing predictions by symbol
     const existingDocs = await CryptoModel.find({});
     const existingSymbols = new Set(
-      existingDocs.map((coin) => coin.symbol.toUpperCase())
+      existingDocs.map((coin) => coin.symbol.toUpperCase()),
     );
 
     // ➕ Step 7: Filter only new coins not in DB
     const newCoins = filteredCoinsArray.filter(
-      (item) => !existingSymbols.has(item.symbol)
+      (item) => !existingSymbols.has(item.symbol),
     );
 
     // 💾 Step 8: Insert if either DB is empty OR new coins exist
@@ -56,6 +55,7 @@ export async function getTrendingFromCoinGecko() {
     return { allCoins: filteredCoinsArray, newCoins };
   } catch (error) {
     console.error("❌ Error fetching trending coins:", error.message);
-    throw new Error("Failed to fetch trending coins.");
+
+    return { allCoins: [], newCoins: [] };
   }
 }
