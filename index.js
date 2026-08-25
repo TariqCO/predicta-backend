@@ -17,7 +17,7 @@ const app = express();
 
 // ──────────── Middleware ────────────
 const corsOptions = {
-  origin: true,
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
